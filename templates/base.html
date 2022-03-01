@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bored</title>
+</head>
+<body>
+    <nav>
+        {% if not g.user %}
+            <a href="/">Home</a>
+        {% else %}
+            <a href="/home">Home</a>
+        {% endif %}
+            <a href="/signup">Sign Up</a>
+            <a href="/login">Login</a>
+            <a href="/logout">Logout</a>
+    </nav>
+    <h1>Bored - Working Title</h1>
+    {% block content %}
+    {% endblock %}
+
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>    
+    <script src="/static/main.js"></script>
+    
+</body>
+</html>
