@@ -1,3 +1,4 @@
+from ast import keyword
 import os
 import requests
 # from re import U
@@ -7,9 +8,9 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError, DataError
 
-from forms import UserForm, LoginForm
+from forms import UserForm, LoginForm, SearchForm
 from models import db, connect_db, User, Activity
-from api import get_random_activity
+from api import ApiCall
 
 CURR_USER_KEY = "curr_user"
 
@@ -128,5 +129,29 @@ def home():
 
 @app.route('/random')
 def random_activity():
-    activity = get_random_activity()
+    """Will return a random activity from the API"""
+    activity = ApiCall.get_random_activity()
     return activity
+
+@app.route('/activity/<int:id>')
+def activity_by_key(id):
+    """Will show user activity details for a given activity id"""
+    activity = ApiCall.get_activity_from_key(id)
+    return render_template('activity.html', activity = activity)
+
+@app.route('/search', methods = ["GET", "POST"])
+def search_activity():
+    """Will show users a form to search/filter for an activity"""
+    form = SearchForm()
+    
+    if form.validate_on_submit():
+        keyword = form.keyword.data or 'null'
+        activity_type = form.activity_type.data
+        price = form.price.data
+        participants = form.participants.data
+        msg = f"{keyword}, {activity_type}, {price}, {participants}"
+        flash(msg)
+        return redirect('/home')
+    
+    return render_template('search.html', form = form)
+
