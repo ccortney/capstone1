@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, SelectField
 from wtforms.validators import Email, DataRequired, Optional
 
 type_choices = [
-('null','Select Type'),
+('','Select Type'),
 ('busywork','Busywork'),
 ('charity', 'Charity'),
 ('cooking','Cooking'),
@@ -15,9 +15,12 @@ type_choices = [
 ('recreational','Recreational'),
 ('social','Social'),
 ]
-price_choices = [('null','Price'), ('less', 'Less than $50'), ('more','More than $50')]
+price_choices = [('','Price'), 
+('minprice=0&maxprice=0.3', 'Less than $50'), 
+('minprice=0.4&maxprice=1','More than $50')]
 
-partipant_choices = [('null','Number of Participants'), ('1', 'One'), ('2','More than One')]
+partipant_choices = [('','Number of Participants'), 
+('1', 'Participants: Limit to 1'), ('','Participants: Flexible')]
 
 class UserForm(FlaskForm):
     """Form for adding users."""
@@ -35,7 +38,6 @@ class LoginForm(FlaskForm):
 class SearchForm(FlaskForm):
     """Form for searching for/filtering an activity"""
 
-    keyword = StringField('Keyword')
     activity_type = SelectField('Type', choices = type_choices)
     price = SelectField('Price', choices = price_choices)
     participants = SelectField('Number of Participants', choices = partipant_choices)

@@ -48,13 +48,23 @@ class User(db.Model):
         
         return False
     
-class Activity(db.Model):
+class UserActivity(db.Model):
     """Stores user and activty status."""
 
-    __tablename__ = 'activities'
+    __tablename__ = 'users_activities'
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key = True)
     activity_id = db.Column(db.Integer, primary_key = True)
     status = db.Column(db.Text, nullable = False)
 
     user = db.relationship('User', backref=db.backref("activities", cascade="all, delete-orphan"))
+
+    def find_saved_activities(user_id):
+        results = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'in-progress').all()
+        return results
+
+    def find_completed_activities(user_id):
+        results = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'completed').all()
+        return results

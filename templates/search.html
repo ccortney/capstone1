@@ -8,16 +8,21 @@
 
     {% for field in form if field.widget.input_type != 'hidden' %}
  
-        {{field(placeholder = field.label.text)}}
+        {{field(placeholder = field.label.text, id=field.label.text)}}
     
         {% for error in field.errors %}
         {{error}}
         {% endfor %}
     {% endfor %}
+    <button id="search-btn">Search</button>
 
-    <button>Search</button>
+    
 
 </form>
+
+<div id="search-results">
+
+</div>
 
 
 {% endblock %}

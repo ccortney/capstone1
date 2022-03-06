@@ -9,7 +9,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError, DataError
 
 from forms import UserForm, LoginForm, SearchForm
-from models import db, connect_db, User, Activity
+from models import db, connect_db, User, UserActivity
 from api import ApiCall
 
 CURR_USER_KEY = "curr_user"
@@ -122,7 +122,17 @@ def homepage():
 def home():
     """Show homepage for logged in users"""
 
-    return render_template('user_home.html')
+    results = UserActivity.find_saved_activities(g.user.id)
+    saved_results = []
+    for result in results:
+        saved_results.append(ApiCall.get_activity_from_key(result.activity_id))
+    results = UserActivity.find_completed_activities(g.user.id)
+    completed_results = []
+    for result in results:
+        completed_results.append(ApiCall.get_activity_from_key(result.activity_id))        
+    return render_template('user_home.html', 
+    saved_results = saved_results, 
+    completed_results = completed_results)
 
 ##############################################################################
 # API routes:
@@ -145,13 +155,11 @@ def search_activity():
     form = SearchForm()
     
     if form.validate_on_submit():
-        keyword = form.keyword.data or 'null'
         activity_type = form.activity_type.data
         price = form.price.data
         participants = form.participants.data
-        msg = f"{keyword}, {activity_type}, {price}, {participants}"
-        flash(msg)
-        return redirect('/home')
+        activity = ApiCall.get_activity_search(activity_type, price, participants)
+        return render_template('activity.html', activity = activity)
     
     return render_template('search.html', form = form)
 
