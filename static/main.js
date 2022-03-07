@@ -2,9 +2,10 @@
 const $randomActivityHome = $("#random-main-home");
 const $searchResults = $("#search-results");
 const $searchButton = $("#search-btn");
-const $randomUserHome = $("#random-home")
-const $randomUserHomeButton = $("#random-home-btn")
+const $randomUserHome = $("#random-home");
+const $getRandom = $("#get-random");
 
+get_random();
 
 
 // Returns the HTML markup for an activity
@@ -17,6 +18,8 @@ function generateActivity(activity) {
                 Price Rating: ${activity.price}<br>
                 Number of Participants: ${activity.participants}<br>
             </p>
+            <a href='/activity/${activity.key}/save'>Save</a>
+            <button class="get-random">Get Another Activity</button>
         </div>`
 }
 
@@ -24,20 +27,26 @@ function generateActivity(activity) {
 // call the generateActivity function on that activity
 // clear the current activity shown on the interface
 // Show the new activity
-async function get_random() {
-    const activityData = await axios.get(`http://127.0.0.1:5000/random`);
-    console.log(activityData);
-    let activity = $(generateActivity(activityData.data));
-    $randomActivityHome.empty();
-    $randomActivityHome.append(activity);
-}
+// async function get_random() {
+//     const activityData = await axios.get(`http://127.0.0.1:5000/random`);
+//     console.log(activityData);
+//     let activity = $(generateActivity(activityData.data));
+//     $randomActivityHome.empty();
+//     $randomActivityHome.append(activity);
+// }
 
-$randomUserHomeButton.on('click', async function(){
+async function get_random(){
     const activityData = await axios.get(`http://127.0.0.1:5000/random`);
     console.log(activityData);
     let activity = $(generateActivity(activityData.data));
     $randomUserHome.empty();
     $randomUserHome.append(activity);
+}
+
+
+$("#random-home").on("click", ".get-random", async function(e) {
+    e.preventDefault();
+    await get_random();
 })
 
 
@@ -67,3 +76,4 @@ $randomUserHomeButton.on('click', async function(){
 // }
 
 // $searchButton.on("click", get_searched_activity())
+

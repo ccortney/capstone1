@@ -68,3 +68,20 @@ class UserActivity(db.Model):
         results = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'completed').all()
         return results
+    
+    def save_activity(user_id, activity_id):
+        newRecord = UserActivity(user_id = user_id, activity_id = activity_id, status = 'in-progress')
+        db.session.add(newRecord)
+        db.session.commit()
+    
+    def change_status_to_completed(user_id, activity_id):
+        result = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.activity_id == activity_id).first()
+        result.status = "completed"
+        db.session.commit()
+
+    def remove_activity(user_id, activity_id):
+        result = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.activity_id == activity_id).first()
+        db.session.delete(result)
+        db.session.commit()

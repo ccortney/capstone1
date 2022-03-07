@@ -163,3 +163,20 @@ def search_activity():
     
     return render_template('search.html', form = form)
 
+@app.route('/activity/<int:activity_id>/save')
+def save_activity(activity_id):
+    """Will save activity to user's list"""
+    UserActivity.save_activity(g.user.id, activity_id)
+    return redirect('/home')
+
+@app.route('/activity/<int:activity_id>/completed')
+def complete_activity(activity_id):
+    """Will change activity status from in-progress to completed"""
+    UserActivity.change_status_to_completed(g.user.id, activity_id)
+    return redirect('/home')
+
+@app.route('/activity/<int:activity_id>/remove')
+def remove_activity(activity_id):
+    """Will remove activity from user's list"""
+    UserActivity.remove_activity(g.user.id, activity_id)
+    return redirect('/home')

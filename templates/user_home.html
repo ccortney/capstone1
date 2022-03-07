@@ -4,19 +4,21 @@
 <h2>Hi {{g.user.username}}</h2>
 <div id="random-home">
 </div>
-<button id="random-home-btn">Get Random Activity</button>
 
 <h3>Activities in Progress:</h3>
 <ul>
     {% for result in saved_results %}
-    <li><a href="/activity/{{result.key}}">{{result.activity}}</a></li>
+    <li><a href="/activity/{{result.key}}">{{result.activity}}</a> 
+        <a href="/activity/{{result.key}}/completed">Completed</a>
+        <a href="/activity/{{result.key}}/remove">Remove</a></li>
     {% endfor %}
 </ul>
 
 <h3>Completed Activities:</h3>
 <ul>
     {% for result in completed_results %}
-    <li><a href="/activity/{{result.key}}">{{result.activity}}</a></li>
+    <li><a href="/activity/{{result.key}}">{{result.activity}}</a>
+        <a href="/activity/{{result.key}}/remove">Remove</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
