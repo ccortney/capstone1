@@ -1,6 +1,7 @@
-from ast import keyword
+# from ast import keyword
 import os
 import requests
+import json
 # from re import U
 # from sqlite3 import Cursor
 
@@ -122,6 +123,7 @@ def homepage():
 def home():
     """Show homepage for logged in users"""
 
+    form = SearchForm()
     results = UserActivity.find_saved_activities(g.user.id)
     saved_results = []
     for result in results:
@@ -129,10 +131,21 @@ def home():
     results = UserActivity.find_completed_activities(g.user.id)
     completed_results = []
     for result in results:
-        completed_results.append(ApiCall.get_activity_from_key(result.activity_id))        
+        completed_results.append(ApiCall.get_activity_from_key(result.activity_id))   
+             
     return render_template('user_home.html', 
     saved_results = saved_results, 
-    completed_results = completed_results)
+    completed_results = completed_results, form = form)
+
+@app.route('/home', methods = ["POST"])
+def filter_activity():
+    form = SearchForm()
+    activity_type = form.activity_type.data
+    price = form.price.data
+    participants = form.participants.data
+    activity = ApiCall.get_activity_search(activity_type, price, participants)
+    
+    return activity
 
 ##############################################################################
 # API routes:

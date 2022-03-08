@@ -38,6 +38,6 @@ class LoginForm(FlaskForm):
 class SearchForm(FlaskForm):
     """Form for searching for/filtering an activity"""
 
-    activity_type = SelectField('Type', choices = type_choices)
-    price = SelectField('Price', choices = price_choices)
-    participants = SelectField('Number of Participants', choices = partipant_choices)
+    activity_type = SelectField('type', choices = type_choices)
+    price = SelectField('price', choices = price_choices)
+    participants = SelectField('participants', choices = partipant_choices)
