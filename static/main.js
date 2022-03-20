@@ -1,9 +1,10 @@
 // find the DOM element where random activities will appear on the main homepage
-const $randomActivityHome = $("#random-main-home");
-const $searchResults = $("#search-results");
-const $searchButton = $("#search-btn");
+const $boredBoardHomeapge = $("#boredboard-home");
+const $filterResults = $("#filter-results");
+const $fitlerButton = $("#filter-btn");
 const $randomUserHome = $("#random-home");
 const $getRandom = $("#get-random");
+
 
 get_random();
 
@@ -48,7 +49,7 @@ function generateFilteredActivity(activity) {
             <a href='/activity/${activity.key}/save'>Save</a>
         </div>`
 }
-function generateSearchError() {
+function generateFilterError() {
     return `
     <div>
         <p>No activity found with the specified parameters.
@@ -56,28 +57,28 @@ function generateSearchError() {
     </div>`
 }  
 
-async function get_searched_activity() {
+async function get_filtered_activity() {
     let activity_type = $("#type").val();
     let price = $("#price").val();
     let participants = $("#participants").val();
     const activityData = await axios.post(`http://127.0.0.1:5000/home`, {
         activity_type, price, participants});
     if (activityData.data.error) {
-        $searchResults.empty();
-        error = $(generateSearchError())
-        $searchResults.append(error);
+        $filterResults.empty();
+        error = $(generateFilterError())
+        $filterResults.append(error);
     }
     else {
         let activity = $(generateFilteredActivity(activityData.data));
-        $searchResults.empty();
-        $searchResults.append(activity);
+        $filterResults.empty();
+        $filterResults.append(activity);
     }
     
 }
 
-$("#search-btn").on("click", async function(e) {
+$("#filter-btn").on("click", async function(e) {
     e.preventDefault();
-    await get_searched_activity();
+    await get_filtered_activity();
 })
 
 // call the /random route which will return a random activity

@@ -35,8 +35,8 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
-class SearchForm(FlaskForm):
-    """Form for searching for/filtering an activity"""
+class FilterForm(FlaskForm):
+    """Form for filtering an activity"""
 
     activity_type = SelectField('type', choices = type_choices)
     price = SelectField('price', choices = price_choices)

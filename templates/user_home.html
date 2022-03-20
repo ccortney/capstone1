@@ -5,7 +5,7 @@
 <div id="random-home">
 </div>
 <h3>Filter for an Activity</h3>
-<form method = "POST" id = "search-form">
+<form method = "POST" id = "filter-form">
     {{form.hidden_tag()}}
 
     {% for field in form if field.widget.input_type != 'hidden' %}
@@ -16,18 +16,19 @@
         {{error}}
         {% endfor %}
     {% endfor %}
-    <button id="search-btn">Search</button>
+    <button id="filter-btn">Filter</button>
 </form>
 
 
-<div id="search-results">
+<div id="filter-results">
 </div>
 
 
 <h3>Activities in Progress:</h3>
 <ul>
     {% for result in saved_results %}
-    <li><a href="/activity/{{result.key}}">{{result.activity}}</a> 
+    <li>
+        {{result.activity}} 
         <a href="/activity/{{result.key}}/completed">Completed</a>
         <a href="/activity/{{result.key}}/remove">Remove</a></li>
     {% endfor %}
@@ -36,8 +37,13 @@
 <h3>Completed Activities:</h3>
 <ul>
     {% for result in completed_results %}
-    <li><a href="/activity/{{result.key}}">{{result.activity}}</a>
+    <li>
+        {{result.activity}}
         <a href="/activity/{{result.key}}/remove">Remove</a></li>
     {% endfor %}
 </ul>
+<div id = "chart-area">
+    <canvas id = "line-chart"></canvas>
+</div>
+
 {% endblock %}

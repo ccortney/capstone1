@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, flash, redirect, session, g, 
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError, DataError
 
-from forms import UserForm, LoginForm, SearchForm
+from forms import UserForm, LoginForm, FilterForm
 from models import db, connect_db, User, UserActivity
 from api import ApiCall
 
@@ -114,16 +114,16 @@ def logout():
 # General Routes
 
 @app.route('/')
-def homepage():
+def boredboard_homepage():
     """Show homepage for non-logged in users"""
 
-    return render_template('main_home.html')
+    return render_template('boredboard.html')
 
 @app.route('/home')
 def home():
     """Show homepage for logged in users"""
 
-    form = SearchForm()
+    form = FilterForm()
     results = UserActivity.find_saved_activities(g.user.id)
     saved_results = []
     for result in results:
@@ -136,16 +136,6 @@ def home():
     return render_template('user_home.html', 
     saved_results = saved_results, 
     completed_results = completed_results, form = form)
-
-@app.route('/home', methods = ["POST"])
-def filter_activity():
-    form = SearchForm()
-    activity_type = form.activity_type.data
-    price = form.price.data
-    participants = form.participants.data
-    activity = ApiCall.get_activity_search(activity_type, price, participants)
-    
-    return activity
 
 ##############################################################################
 # API routes:
@@ -161,20 +151,6 @@ def activity_by_key(id):
     """Will show user activity details for a given activity id"""
     activity = ApiCall.get_activity_from_key(id)
     return render_template('activity.html', activity = activity)
-
-@app.route('/search', methods = ["GET", "POST"])
-def search_activity():
-    """Will show users a form to search/filter for an activity"""
-    form = SearchForm()
-    
-    if form.validate_on_submit():
-        activity_type = form.activity_type.data
-        price = form.price.data
-        participants = form.participants.data
-        activity = ApiCall.get_activity_search(activity_type, price, participants)
-        return render_template('activity.html', activity = activity)
-    
-    return render_template('search.html', form = form)
 
 @app.route('/activity/<int:activity_id>/save')
 def save_activity(activity_id):
@@ -193,3 +169,13 @@ def remove_activity(activity_id):
     """Will remove activity from user's list"""
     UserActivity.remove_activity(g.user.id, activity_id)
     return redirect('/home')
+
+@app.route('/home', methods = ["POST"])
+def filter_activity():
+    form = FilterForm()
+    activity_type = form.activity_type.data
+    price = form.price.data
+    participants = form.participants.data
+    activity = ApiCall.get_activity_search(activity_type, price, participants)
+    
+    return activity
