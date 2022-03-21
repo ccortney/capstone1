@@ -3,6 +3,16 @@
 {% block content %}
 <h2>homepage</h2>
 
+{% for activity in activities %}
+    <p>
+    {{activity.activity}}
+    {{activity.type}}
+    {{activity.price}}
+    {{activity.participants}}
+    </p>
+
+
+{% endfor %}
 <!-- space for random activity, changed every 5 seconds -->
 <div id = "boredboard-home">
 </div>

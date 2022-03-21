@@ -18,3 +18,17 @@ class ApiCall:
     @classmethod
     def get_activity_search(cls, type, price, participants):
         return requests.get(f"{api_url}type={type}&{price}&participants={participants}").json()
+
+    # def completed_categories(user_id):
+    #     results = UserActivity.query.filter(UserActivity.user_id == user_id, 
+    #     UserActivity.status == 'completed').all()
+
+    #     education_count = results.query.filter()
+    #     recreational_count = 
+    #     social_count = 
+    #     diy_count = 
+    #     charity_count = 
+    #     cooking_count = 
+    #     relaxation_count = 
+    #     music_count = 
+    #     busywork_count = 

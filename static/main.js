@@ -5,18 +5,45 @@ const $fitlerButton = $("#filter-btn");
 const $randomUserHome = $("#random-home");
 const $getRandom = $("#get-random");
 
-
+// Start with a random activity showing when DOM loads
 get_random();
 
+// Returns activity types as titlecase/capitolize except DIY as all uppercase
+function fixLowerCaseforType(type) {
+    if (type == 'diy') {
+        return type.toUpperCase()
+    }
+    else {
+        return type.charAt(0).toUpperCase() + type.slice(1)
+    }
+}
+
+// returns activity price range as dollar signs instead of decimals
+function createPriceSymbols(price) {
+    if (price == 0) {
+        return 'Free!'
+    }
+    else if (price > 0 && price <= 0.2) {
+        return `$`
+    }
+    else if (price > 0.2 && price <= 0.3) {
+        return '$$'
+    }
+    else if (price >= 0.4) {
+        return '$$$'
+    }
+}
 
 // Returns the HTML markup for a random activity
 function generateRandomActivity(activity) {
+    let type = fixLowerCaseforType(activity.type)
+    let price = createPriceSymbols(activity.price)
     return `
         <div id = ${activity.key}>
             <p>
                 ${activity.activity}<br>
-                Type: ${activity.type}<br>
-                Price Rating: ${activity.price}<br>
+                Type: ${type}<br>
+                Price Rating: ${price}<br>
                 Number of Participants: ${activity.participants}<br>
             </p>
             <a href='/activity/${activity.key}/save'>Save</a>
@@ -24,6 +51,23 @@ function generateRandomActivity(activity) {
         </div>`
 }
 
+// Returns the HTML markup for a filtered activity
+function generateFilteredActivity(activity) {
+    let type = fixLowerCaseforType(activity.type)
+    let price = createPriceSymbols(activity.price)
+    return `
+        <div id = ${activity.key}>
+            <p>
+                ${activity.activity}<br>
+                Type: ${type}<br>
+                Price Rating: ${price}<br>
+                Number of Participants: ${activity.participants}<br>
+            </p>
+            <a href='/activity/${activity.key}/save'>Save</a>
+        </div>`
+}
+
+// Get and show a random activity. 
 async function get_random(){
     const activityData = await axios.get(`http://127.0.0.1:5000/random`);
     let activity = $(generateRandomActivity(activityData.data));
@@ -31,32 +75,7 @@ async function get_random(){
     $randomUserHome.append(activity);
 }
 
-$("#random-home").on("click", ".get-random", async function(e) {
-    e.preventDefault();
-    await get_random();
-})
-
-// Returns the HTML markup for a filtered activity
-function generateFilteredActivity(activity) {
-    return `
-        <div id = ${activity.key}>
-            <p>
-                ${activity.activity}<br>
-                Type: ${activity.type}<br>
-                Price Rating: ${activity.price}<br>
-                Number of Participants: ${activity.participants}<br>
-            </p>
-            <a href='/activity/${activity.key}/save'>Save</a>
-        </div>`
-}
-function generateFilterError() {
-    return `
-    <div>
-        <p>No activity found with the specified parameters.
-        </p>
-    </div>`
-}  
-
+// Use the parameters set by the user to filter for and show an activity. 
 async function get_filtered_activity() {
     let activity_type = $("#type").val();
     let price = $("#price").val();
@@ -73,9 +92,24 @@ async function get_filtered_activity() {
         $filterResults.empty();
         $filterResults.append(activity);
     }
-    
 }
 
+// Give error message if there is not an activity with specified parameters. 
+function generateFilterError() {
+    return `
+    <div>
+        <p>No activity found with the specified parameters.
+        </p>
+    </div>`
+}  
+
+// When the random button is clicked, call get_random()
+$("#random-home").on("click", ".get-random", async function(e) {
+    e.preventDefault();
+    await get_random();
+})
+
+// When the filter button is clicked, call get_filtered_activity()
 $("#filter-btn").on("click", async function(e) {
     e.preventDefault();
     await get_filtered_activity();

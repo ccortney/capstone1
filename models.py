@@ -85,3 +85,18 @@ class UserActivity(db.Model):
         UserActivity.activity_id == activity_id).first()
         db.session.delete(result)
         db.session.commit()
+
+class Activity():
+    def __init__(self, activity, type, price, participants):
+        self.activity = activity
+        self.type = type
+        self.price = price
+        self.participants = participants
+
+activity1 = Activity('Get a Massage', 'Relaxation', '0.4', 1)
+activity2 = Activity('Find a Recipe on Instagram', 'Cooking', '0', 1)
+activity3 = Activity('Meet up with Friends for a Drink', 'Social', '0.3', 3)
+activity4 = Activity('Refurbish a Flea Market Find', 'DIY', '0.5', 2)
+activity5 = Activity('Watch a Documentary', 'Education', '0', 1)
+
+preset_activites = [activity1, activity2, activity3, activity4, activity5]

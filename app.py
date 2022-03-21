@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError, DataError
 
 from forms import UserForm, LoginForm, FilterForm
-from models import db, connect_db, User, UserActivity
+from models import db, connect_db, User, UserActivity, preset_activites
 from api import ApiCall
 
 CURR_USER_KEY = "curr_user"
@@ -116,12 +116,21 @@ def logout():
 @app.route('/')
 def boredboard_homepage():
     """Show homepage for non-logged in users"""
+    
+    if g.user:
+        return redirect("/home")
+    
+    activities = preset_activites
 
-    return render_template('boredboard.html')
+    return render_template('boredboard.html', activities = activities)
 
 @app.route('/home')
 def home():
     """Show homepage for logged in users"""
+
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
 
     form = FilterForm()
     results = UserActivity.find_saved_activities(g.user.id)
@@ -143,35 +152,67 @@ def home():
 @app.route('/random')
 def random_activity():
     """Will return a random activity from the API"""
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
+
     activity = ApiCall.get_random_activity()
     return activity
 
-@app.route('/activity/<int:id>')
-def activity_by_key(id):
-    """Will show user activity details for a given activity id"""
-    activity = ApiCall.get_activity_from_key(id)
-    return render_template('activity.html', activity = activity)
+# @app.route('/activity/<int:id>')
+# def activity_by_key(id):
+#     """Will show user activity details for a given activity id"""
+#     activity = ApiCall.get_activity_from_key(id)
+#     return render_template('activity.html', activity = activity)
 
 @app.route('/activity/<int:activity_id>/save')
 def save_activity(activity_id):
     """Will save activity to user's list"""
-    UserActivity.save_activity(g.user.id, activity_id)
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
+    
+    try: 
+        UserActivity.save_activity(g.user.id, activity_id)
+
+    except IntegrityError:
+            flash("Activity already saved!", 'danger')
+            db.session.rollback()
+    
     return redirect('/home')
 
 @app.route('/activity/<int:activity_id>/completed')
 def complete_activity(activity_id):
     """Will change activity status from in-progress to completed"""
-    UserActivity.change_status_to_completed(g.user.id, activity_id)
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
+
+    try: 
+        UserActivity.change_status_to_completed(g.user.id, activity_id)
+
+    except IntegrityError:
+            flash("Activity already saved!", 'danger')
+            db.session.rollback()
+    
     return redirect('/home')
 
 @app.route('/activity/<int:activity_id>/remove')
 def remove_activity(activity_id):
     """Will remove activity from user's list"""
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
+
     UserActivity.remove_activity(g.user.id, activity_id)
     return redirect('/home')
 
 @app.route('/home', methods = ["POST"])
 def filter_activity():
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
+
     form = FilterForm()
     activity_type = form.activity_type.data
     price = form.price.data
