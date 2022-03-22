@@ -1,4 +1,5 @@
 import requests
+from models import UserActivity
 
 api_url = "http://www.boredapi.com/api/activity?"
 
@@ -19,16 +20,29 @@ class ApiCall:
     def get_activity_search(cls, type, price, participants):
         return requests.get(f"{api_url}type={type}&{price}&participants={participants}").json()
 
-    # def completed_categories(user_id):
-    #     results = UserActivity.query.filter(UserActivity.user_id == user_id, 
-    #     UserActivity.status == 'completed').all()
+    def completed_categories(user_id):
+        results = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'completed').all()
 
-    #     education_count = results.query.filter()
-    #     recreational_count = 
-    #     social_count = 
-    #     diy_count = 
-    #     charity_count = 
-    #     cooking_count = 
-    #     relaxation_count = 
-    #     music_count = 
-    #     busywork_count = 
+        activity_types = []
+
+        for result in results:
+            activity = ApiCall.get_activity_from_key(result.activity_id)
+            activity_types.append(activity['type'])
+        
+        counts = {
+            'education_count': len([type for type in activity_types if type == 'education']), 
+            'recreational_count': len([type for type in activity_types if type == 'recreational']), 
+            'social_count': len([type for type in activity_types if type == 'social']), 
+            'diy_count': len([type for type in activity_types if type == 'diy']), 
+            'charity_count': len([type for type in activity_types if type == 'charity']), 
+            'cooking_count': len([type for type in activity_types if type == 'cooking']), 
+            'relaxation_count': len([type for type in activity_types if type == 'relaxation']), 
+            'music_count': len([type for type in activity_types if type == 'music']), 
+            'busywork_count': len([type for type in activity_types if type == 'busywork']) 
+        }
+        
+        return counts
+    
+
+            

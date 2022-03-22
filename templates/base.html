@@ -19,6 +19,9 @@
         {% endif %}
             
     </nav>
+    <div id = "counts">
+
+    </div>
     <h1>Bored Board</h1>
     {% for msg in get_flashed_messages() %}
         <p>{{msg}}</p>
@@ -26,6 +29,8 @@
 
     {% block content %}
     {% endblock %}
+
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://unpkg.com/jquery"></script>

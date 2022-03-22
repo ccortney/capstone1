@@ -207,6 +207,16 @@ def remove_activity(activity_id):
     UserActivity.remove_activity(g.user.id, activity_id)
     return redirect('/home')
 
+@app.route('/activitycounts')
+def activity_counts():
+    """Will return a counts for completed activity by type"""
+    if not g.user:
+        flash("Please login or sign up!", "danger")
+        return redirect("/")
+
+    counts = ApiCall.completed_categories(g.user.id)
+    return counts
+
 @app.route('/home', methods = ["POST"])
 def filter_activity():
     if not g.user:
