@@ -42,8 +42,16 @@
         <a href="/activity/{{result.key}}/remove">Remove</a></li>
     {% endfor %}
 </ul>
+
+<h3>Your Stats:</h3>
+<p><b>Total Activities Saved</b>: {{total_saved}}</p>
+<p><b>Total Activities Completed</b>: {{total_completed}}</p>
+<p><b>Activities Left to Complete</b>: {{activities_left}}</p>
+<p><b>Percent of Your Activities Completed</b>: {{percent_of_saved}}</p>
 <div id = "chart-area">
-    <canvas id = "chart"></canvas>
+    <div id = "doughnut-chart-div">
+        <canvas id = "doughnut-chart"></canvas>
+    </div>
 </div>
 
 {% endblock %}

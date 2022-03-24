@@ -86,6 +86,30 @@ class UserActivity(db.Model):
         db.session.delete(result)
         db.session.commit()
 
+    def activities_total_completed(user_id):
+        total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'completed').count()
+        return total
+
+    def activities_total_saved(user_id):
+        total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'in-progress').count()
+        return total
+    
+    def activities_left(user_id):
+        total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'completed').count()
+        activities_left = 185 - total
+        return activities_left
+
+    def activities_percent_of_saved(user_id):
+        completed_total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'completed').count()
+        saved_total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'in-progress').count()
+        percent = str(round(completed_total/(saved_total + completed_total)*100, 2)) + '%'
+        return percent
+
 class Activity():
     def __init__(self, activity, type, price, participants):
         self.activity = activity

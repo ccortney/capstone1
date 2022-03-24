@@ -140,11 +140,19 @@ def home():
     results = UserActivity.find_completed_activities(g.user.id)
     completed_results = []
     for result in results:
-        completed_results.append(ApiCall.get_activity_from_key(result.activity_id))   
+        completed_results.append(ApiCall.get_activity_from_key(result.activity_id))  
+    total_completed = UserActivity.activities_total_completed(g.user.id)
+    total_saved = UserActivity.activities_total_saved(g.user.id)
+    activities_left = UserActivity.activities_left(g.user.id)
+    percent_of_saved = UserActivity.activities_percent_of_saved(g.user.id)
              
     return render_template('user_home.html', 
     saved_results = saved_results, 
-    completed_results = completed_results, form = form)
+    completed_results = completed_results, form = form, 
+    total_completed = total_completed,
+    total_saved = total_saved, 
+    activities_left = activities_left, 
+    percent_of_saved = percent_of_saved)
 
 ##############################################################################
 # API routes:
