@@ -59,7 +59,7 @@ class UserActivity(db.Model):
 
     user = db.relationship('User', backref=db.backref("activities", cascade="all, delete-orphan"))
 
-    def find_saved_activities(user_id):
+    def find_inprogress_activities(user_id):
         results = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'in-progress').all()
         return results
@@ -92,9 +92,11 @@ class UserActivity(db.Model):
         return total
 
     def activities_total_saved(user_id):
-        total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        total_saved = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'in-progress').count()
-        return total
+        total_completed = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'completed').count()
+        return total_saved + total_completed
     
     def activities_left(user_id):
         total = UserActivity.query.filter(UserActivity.user_id == user_id, 

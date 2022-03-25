@@ -1,7 +1,6 @@
 # from ast import keyword
 import os
 import requests
-import json
 # from re import U
 # from sqlite3 import Cursor
 
@@ -133,7 +132,7 @@ def home():
         return redirect("/")
 
     form = FilterForm()
-    results = UserActivity.find_saved_activities(g.user.id)
+    results = UserActivity.find_inprogress_activities(g.user.id)
     saved_results = []
     for result in results:
         saved_results.append(ApiCall.get_activity_from_key(result.activity_id))
