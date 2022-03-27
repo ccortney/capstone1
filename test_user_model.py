@@ -22,8 +22,8 @@ class UserModelTestCase(TestCase):
     def setUp(self):
         """Create test client, add sample data."""
 
-        User.query.delete()
         UserActivity.query.delete()
+        User.query.delete()
 
         self.client = app.test_client()
 
@@ -77,9 +77,19 @@ class UserModelTestCase(TestCase):
         )
         
         self.assertRaises(IntegrityError, db.session.commit)
-    
+
+    def test_invalid_signup_username_blank(self):
+        """Signup should fail if username is blank"""
+
+        with self.assertRaises(ValueError) as context: 
+            User.signup(
+                username = None,
+                email = "testtttttt@email.com",
+                password = "password"
+            )
+
     def test_invalid_signup_password(self):
-        """Signup should fail if username is not unique"""
+        """Should raise an error if password is blank or None"""
 
         with self.assertRaises(ValueError) as context: 
             User.signup(
