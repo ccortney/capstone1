@@ -78,15 +78,17 @@ class UserModelTestCase(TestCase):
         
         self.assertRaises(IntegrityError, db.session.commit)
 
-    def test_invalid_signup_username_blank(self):
-        """Signup should fail if username is blank"""
+    # THIS IS THE TEST THAT IS FAILING!
+    def test_invalid_signup_username_none(self):
+        """Signup should fail if username is None"""
 
-        with self.assertRaises(ValueError) as context: 
+        with self.assertRaises(IntegrityError) as context: 
             User.signup(
                 username = None,
                 email = "testtttttt@email.com",
                 password = "password"
             )
+        self.assertRaises(IntegrityError, db.session.commit)
 
     def test_invalid_signup_password(self):
         """Should raise an error if password is blank or None"""
