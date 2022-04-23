@@ -2,46 +2,70 @@
 
 {% block content %}
 <h2>Hi {{g.user.username}}</h2>
-<div id="random-home">
-</div>
-<h3>Filter for an Activity</h3>
-<form method = "POST" id = "filter-form">
-    {{form.hidden_tag()}}
 
-    {% for field in form if field.widget.input_type != 'hidden' %}
- 
-        {{field(placeholder = field.label.text, id=field.label.text)}}
-    
-        {% for error in field.errors %}
-        {{error}}
+<div class = "container-fluid">
+    <div class="row">
+        <div class="col-md bg-primary bg-opacity-25">Random
+            <div id="random-home">
+            </div>
+        </div>
+        <div class="col-md-6 bg-info bg-opacity-25">Filter
+            <form method = "POST" id = "filter-form">
+                {{form.hidden_tag()}}
+                <div class="row">
+                        <div class="col-6 pr-0 my-2">
+                            {{form.activity_type(class="form-select", id="type")}}
+                        </div>
+                        <div class="col-6 pl-0 my-2">
+                            {{form.price(class="form-select", id="price")}}
+                        </div> 
+                </div>
+                <div class = "row">                   
+                        <div class="col-12 my-2">
+                            {{form.participants(class="form-select", id="participants")}}
+                        </div>
+                </div>
+                <button type = "submit" class = "btn btn-warning my-2" id="filter-btn">Filter</button>
+            </form>
+        </div>
+        <div class="col-md bg-warning bg-opacity-25">
+            <div id="filter-results">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <h3>My Activities</h3>
+    <div class="row">
+        {% for result in saved_results %}
+            <div class="col-sm-6 col-md-3 my-2">
+                <div class="card">
+                    <div class="card-header">In Progress</div>
+                    <div class="card-body">
+                        <p class="card-text">{{result.activity}}</p>
+                        <a href="/activity/{{result.key}}/completed"><i class="fa-solid fa-circle-check text-success"></i></a>
+                        <a href="/activity/{{result.key}}/remove"><i class="fa-solid fa-trash-can text-dark"></i></a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    {% endfor %}
-    <button id="filter-btn">Filter</button>
-</form>
+    </div>
+    <div class="row">
+        {% for result in completed_results %}
+        <div class="col-sm-6 col-md-3 my-2">
+            <div class="card border-success">
+                <div class="card-header bg-success bg-opacity-25">Completed</div>
+                <div class="card-body">
+                    <p class="card-text">{{result.activity}}</p>
+                    <a href="/activity/{{result.key}}/remove"><i class="fa-solid fa-trash-can text-dark"></i></a>
 
-
-<div id="filter-results">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-
-
-<h3>Activities in Progress:</h3>
-<ul>
-    {% for result in saved_results %}
-    <li>
-        {{result.activity}} 
-        <a href="/activity/{{result.key}}/completed">Completed</a>
-        <a href="/activity/{{result.key}}/remove">Remove</a></li>
-    {% endfor %}
-</ul>
-
-<h3>Completed Activities:</h3>
-<ul>
-    {% for result in completed_results %}
-    <li>
-        {{result.activity}}
-        <a href="/activity/{{result.key}}/remove">Remove</a></li>
-    {% endfor %}
-</ul>
 
 <h3>Your Stats:</h3>
 <p><b>Total Activities Saved</b>: {{total_saved}}</p>

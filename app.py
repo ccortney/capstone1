@@ -1,11 +1,7 @@
-# from ast import keyword
 import os
-import requests
-# from re import U
-# from sqlite3 import Cursor
 
 from flask import Flask, render_template, request, flash, redirect, session, g, jsonify
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError, DataError
 
 from forms import UserForm, LoginForm, FilterForm
@@ -25,7 +21,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -232,6 +228,7 @@ def filter_activity():
 
     form = FilterForm()
     activity_type = form.activity_type.data
+    print(f"activity type: {activity_type}")
     price = form.price.data
     participants = form.participants.data
     activity = ApiCall.get_activity_search(activity_type, price, participants)
