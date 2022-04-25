@@ -115,32 +115,4 @@ $("#filter-btn").on("click", async function(e) {
     await get_filtered_activity();
 })
 
-// call the /random route which will return a random activity
-// call the generateActivity function on that activity
-// clear the current activity shown on the interface
-// Show the new activity
-// async function get_random() {
-//     const activityData = await axios.get(`http://127.0.0.1:5000/random`);
-//     console.log(activityData);
-//     let activity = $(generateActivity(activityData.data));
-//     $randomActivityHome.empty();
-//     $randomActivityHome.append(activity);
-// }
-
-// when on homepage without logged in user, get random activity. 
-// regenerate that random activity every 5 seconds
-// if (window.location.href == 'http://127.0.0.1:5000/') {
-//     get_random();
-//     setInterval(get_random, 5000);
-// }
-
-
-// async function get_searched_activity() {
-//     const activityData = ApiCall.get_activity_search(type, price, participants)
-//     console.log(activityData);
-//     let activity = $(generateActivity(activityData.data));
-//     $searchResults.empty();
-//     $searchResults.append(activity);
-// }
-
 

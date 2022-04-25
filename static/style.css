@@ -1,9 +1,9 @@
-#chart-area {
-	width: 900px;
-	height: 500px;
-}
+/* #chart-area {
+	display: flex;
+	justify-content: center;
+} */
 
 #doughnut-chart-div {
-	width: 300px;
-	height: 300px;
+	width: 200px;
+	height: 200px;
 }

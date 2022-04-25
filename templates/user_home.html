@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Hi {{g.user.username}}</h2>
+
 
 <div class = "container-fluid">
+    <div class="row">
+            <h2 class="text-center">Hi {{g.user.username}}</h2>
+            <p class="text-center">Find activities to combat your boredom!</p>
+    </div>
     <div class="row">
         <div class="col-md bg-primary bg-opacity-25">Random
             <div id="random-home">
@@ -35,17 +39,44 @@
     </div>
 </div>
 
+<div class="container">
+    <h3 class = "text-center">My Activity Stats</h3>
+    <div class="row border mx-1 p-2 d-flex align-items-stretch justify-content-center">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-6 border text-center ">
+                    <p class ="m-0 ">Saved</p>
+                    <p class="m-0 display-1">{{total_saved}}</p>
+                </div>
+                <div class="col-6 border bg-warning bg-opacity-75 text-center ">
+                    <p class ="m-0 ">Completed</p>
+                    <p class="m-0 display-1">{{total_completed}}</p>
+                </div>
+            </div>
+            <div class="row border bg-warning bg-opacity-50">
+                <p><b>Percent of Your Activities Completed</b>: {{percent_of_saved}}</p>
+            </div>
+        </div>
+        <div class="col-md-3 d-flex justify-content-center" id="chart-area">
+            <div id = "doughnut-chart-div">
+                <canvas id = "doughnut-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container-fluid">
-    <h3>My Activities</h3>
+    <h3 class="text-center">My Saved Activities</h3>
     <div class="row">
         {% for result in saved_results %}
-            <div class="col-sm-6 col-md-3 my-2">
+            <div class="col-sm-6 col-md-4 col-lg-3 my-2">
                 <div class="card">
                     <div class="card-header">In Progress</div>
                     <div class="card-body">
                         <p class="card-text">{{result.activity}}</p>
-                        <a href="/activity/{{result.key}}/completed"><i class="fa-solid fa-circle-check text-success"></i></a>
-                        <a href="/activity/{{result.key}}/remove"><i class="fa-solid fa-trash-can text-dark"></i></a>
+                        <a href="/activity/{{result.key}}/completed" data-toggle="tooltip" title="Complete Activity"><i class="fa-solid fa-circle-check text-success"></i></a>
+                        <a href="/activity/{{result.key}}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>
                     </div>
                 </div>
             </div>
@@ -53,12 +84,12 @@
     </div>
     <div class="row">
         {% for result in completed_results %}
-        <div class="col-sm-6 col-md-3 my-2">
+        <div class="col-sm-6 col-md-4 col-lg-3 my-2">
             <div class="card border-success">
                 <div class="card-header bg-success bg-opacity-25">Completed</div>
                 <div class="card-body">
                     <p class="card-text">{{result.activity}}</p>
-                    <a href="/activity/{{result.key}}/remove"><i class="fa-solid fa-trash-can text-dark"></i></a>
+                    <a href="/activity/{{result.key}}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>
 
                 </div>
             </div>
@@ -66,16 +97,4 @@
         {% endfor %}
     </div>
 </div>
-
-<h3>Your Stats:</h3>
-<p><b>Total Activities Saved</b>: {{total_saved}}</p>
-<p><b>Total Activities Completed</b>: {{total_completed}}</p>
-<p><b>Activities Left to Complete</b>: {{activities_left}}</p>
-<p><b>Percent of Your Activities Completed</b>: {{percent_of_saved}}</p>
-<div id = "chart-area">
-    <div id = "doughnut-chart-div">
-        <canvas id = "doughnut-chart"></canvas>
-    </div>
-</div>
-
 {% endblock %}

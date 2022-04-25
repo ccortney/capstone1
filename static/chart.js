@@ -1,6 +1,18 @@
 // const { Chart } = require("chart.js");
 
 const $doughnutChart = $("#doughnut-chart");
+  // naming colors
+  let orange = 'FF9B54';
+  let yellow = 'FCBA04'; 
+  let pink = 'D81159';
+  let violet = '6874E8';
+  let green = '3BB273';
+  let blush = 'FF7B9C';
+  let blue = '1E96FC';
+  let royal = '072AC8';
+  let purple = '54428E'
+  
+    // [#FF9B54, #FCBA04, #D81159, #6874E8, #3BB273, #FF7B9C, #1E96FC, #072AC8, #54428E]
 
 // Get data: category counts
 async function get_category_counts(){
@@ -35,20 +47,20 @@ async function get_category_counts(){
     datasets: [{
       label: 'Completed Activities by Type',
       data: activityCounts,
-      backgroundColor: [
-        // random colors
-        'rgb(30, 100, 30)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)', 
-        'rgb(100, 99, 132)',
-        'rgb(54, 200, 96)',
-        'rgb(0, 40, 200)', 
-        'rgb(255, 99, 132)',
-        'rgb(200, 0, 200)', 
-      ],
+      backgroundColor: [`#${orange}`, 
+      `#${yellow}`, 
+      `#${pink}`, 
+      `#${violet}`, 
+      `#${green}`, 
+      `#${blush}`, 
+      `#${blue}`, 
+      `#${royal}`, 
+      `#${purple}`],
     }]
   };
 };
+
+
 
 async function show_charts() {
   // run the function, so that we have an array of data to use
