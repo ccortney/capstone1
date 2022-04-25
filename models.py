@@ -91,6 +91,11 @@ class UserActivity(db.Model):
         UserActivity.status == 'completed').count()
         return total
 
+    def activities_total_inprogress(user_id):
+        total = UserActivity.query.filter(UserActivity.user_id == user_id, 
+        UserActivity.status == 'in-progress').count()
+        return total
+
     def activities_total_saved(user_id):
         total_saved = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'in-progress').count()
@@ -110,9 +115,9 @@ class UserActivity(db.Model):
         saved_total = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'in-progress').count()
         if ((saved_total + completed_total) == 0):
-            return '0%'
+            return 0
         else:
-            percent = str(round(completed_total/(saved_total + completed_total)*100, 2)) + '%'
+            percent = (round(completed_total/(saved_total + completed_total)*100, 2))
 
         return percent
 

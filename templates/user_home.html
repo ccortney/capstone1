@@ -41,23 +41,27 @@
 
 <div class="container">
     <h3 class = "text-center">My Activity Stats</h3>
-    <div class="row border mx-1 p-2 d-flex align-items-stretch justify-content-center">
+    <div class="row mx-1 mb-3 d-flex align-items-center justify-content-center">
         <div class="col-md-3">
-            <div class="row">
+            <div class="row g-0">
                 <div class="col-6 border text-center ">
                     <p class ="m-0 ">Saved</p>
-                    <p class="m-0 display-1">{{total_saved}}</p>
+                    <p class="m-0 display-1">{{total_inprogress}}</p>
                 </div>
                 <div class="col-6 border bg-warning bg-opacity-75 text-center ">
                     <p class ="m-0 ">Completed</p>
                     <p class="m-0 display-1">{{total_completed}}</p>
                 </div>
             </div>
-            <div class="row border bg-warning bg-opacity-50">
-                <p><b>Percent of Your Activities Completed</b>: {{percent_of_saved}}</p>
+            <div class="row">
+                <p class = "m-0 mt-2 small">% of Activities Completed:</p>
             </div>
+            <div class="row g-0 progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{percent_of_saved}}%" aria-valuenow={{percent_of_saved}} aria-valuemin="0" aria-valuemax="100">{{percent_of_saved}}%</div>
+            </div>
+
         </div>
-        <div class="col-md-3 d-flex justify-content-center" id="chart-area">
+        <div class="col-md-3 " id="chart-area">
             <div id = "doughnut-chart-div">
                 <canvas id = "doughnut-chart"></canvas>
             </div>

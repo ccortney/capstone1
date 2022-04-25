@@ -138,6 +138,7 @@ def home():
         completed_results.append(ApiCall.get_activity_from_key(result.activity_id))  
     total_completed = UserActivity.activities_total_completed(g.user.id)
     total_saved = UserActivity.activities_total_saved(g.user.id)
+    total_inprogress = UserActivity.activities_total_inprogress(g.user.id)
     activities_left = UserActivity.activities_left(g.user.id)
     percent_of_saved = UserActivity.activities_percent_of_saved(g.user.id)
              
@@ -147,7 +148,8 @@ def home():
     total_completed = total_completed,
     total_saved = total_saved, 
     activities_left = activities_left, 
-    percent_of_saved = percent_of_saved)
+    percent_of_saved = percent_of_saved, 
+    total_inprogress = total_inprogress)
 
 ##############################################################################
 # API routes:
