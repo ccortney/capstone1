@@ -3,37 +3,57 @@
 {% block content %}
 
 
-<div class = "container-fluid">
+<div class = "container">
     <div class="row">
             <h2 class="text-center">Hi {{g.user.username}}</h2>
             <p class="text-center">Find activities to combat your boredom!</p>
     </div>
-    <div class="row">
-        <div class="col-md bg-primary bg-opacity-25">Random
-            <div id="random-home">
-            </div>
+    <div class="row mb-3 mx-4 mx-md-0 ">
+        <div class="col-md border">
+            <p class="text-center text-decoration-underline bigger mb-0">Find a Random Activity</p>
+            <div class = "my-2" id="random-home"></div>
         </div>
-        <div class="col-md-6 bg-info bg-opacity-25">Filter
+        <div class="col-md-5 border">
+            <p class="text-center text-decoration-underline bigger mb-0">Filter for an Activity</p>
             <form method = "POST" id = "filter-form">
                 {{form.hidden_tag()}}
-                <div class="row">
-                        <div class="col-6 pr-0 my-2">
+                <div class="row d-flex justify-content-center">
+                        <div class="col-8 col-md-10  my-3">
                             {{form.activity_type(class="form-select", id="type")}}
                         </div>
-                        <div class="col-6 pl-0 my-2">
-                            {{form.price(class="form-select", id="price")}}
-                        </div> 
                 </div>
-                <div class = "row">                   
-                        <div class="col-12 my-2">
+                <div class = "row  d-flex justify-content-center">                   
+                    <div class="col-8 col-md-10 my-3">
+                        {{form.price(class="form-select", id="price")}}
+                    </div>
+                </div>
+                <div class = "row  d-flex justify-content-center">                   
+                        <div class="col-8 col-md-10  my-3">
                             {{form.participants(class="form-select", id="participants")}}
                         </div>
                 </div>
-                <button type = "submit" class = "btn btn-warning my-2" id="filter-btn">Filter</button>
+                <div class="row d-flex justify-content-center">
+                    <button type = "submit" class = "btn btn-warning my-2 col-4" id="filter-btn">Filter</button>
+                </div>
             </form>
         </div>
-        <div class="col-md bg-warning bg-opacity-25">
-            <div id="filter-results">
+        <div class="col-md border">
+            <p class="text-center text-decoration-underline bigger mb-0">Your Result</p>
+            <div class = "my-2" id="filter-results">
+                <div style="height: 72px">
+                    <h5 class="h-100 text-center">Activity Here</h5>
+                </div>
+                <hr>
+                <div class="row">
+                    <p class="lh-lg">
+                        Type:  <br>  
+                        Price Rating: <br>
+                        Number of Participants: <br>
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-sm" disabled >Save</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -42,26 +62,26 @@
 <div class="container">
     <h3 class = "text-center">My Activity Stats</h3>
     <div class="row mx-1 mb-3 d-flex align-items-center justify-content-center">
-        <div class="col-md-3">
-            <div class="row g-0">
-                <div class="col-6 border text-center ">
+        <div class="col-md-4 col-lg-3">
+            <div class="row g-0 d-flex justify-content-center">
+                <div class="col-3 col-md-6 border text-center ">
                     <p class ="m-0 ">Saved</p>
                     <p class="m-0 display-1">{{total_inprogress}}</p>
                 </div>
-                <div class="col-6 border bg-warning bg-opacity-75 text-center ">
+                <div class="col-3 col-md-6 border bg-success bg-opacity-50 text-center ">
                     <p class ="m-0 ">Completed</p>
                     <p class="m-0 display-1">{{total_completed}}</p>
                 </div>
             </div>
             <div class="row">
-                <p class = "m-0 mt-2 small">% of Activities Completed:</p>
+                <p class = "m-0 mt-2 small text-center">% of Activities Completed</p>
             </div>
             <div class="row g-0 progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{percent_of_saved}}%" aria-valuenow={{percent_of_saved}} aria-valuemin="0" aria-valuemax="100">{{percent_of_saved}}%</div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{percent_of_saved}}%" aria-valuenow={{percent_of_saved}} aria-valuemin="0" aria-valuemax="100">{{percent_of_saved}}%</div>
             </div>
 
         </div>
-        <div class="col-md-3 " id="chart-area">
+        <div class="col-md-3 d-flex justify-content-center" id="chart-area">
             <div id = "doughnut-chart-div">
                 <canvas id = "doughnut-chart"></canvas>
             </div>
