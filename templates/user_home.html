@@ -8,8 +8,8 @@
             <h2 class="text-center">Hi {{g.user.username}}</h2>
             <p class="text-center">Find activities to combat your boredom!</p>
     </div>
-    <div class="row mb-3 mx-4 mx-md-0 ">
-        <div class="col-md border">
+    <div class="row mb-3 mx-4 mx-sm-0">
+        <div class="col-md border border-dark border-3 rounded mx-lg-4 my-2 my-md-0">
             <p class="text-center text-decoration-underline bigger mb-0">Find a Random Activity</p>
             <div class = "my-2" id="random-home"></div>
         </div>
@@ -41,7 +41,7 @@
             <p class="text-center text-decoration-underline bigger mb-0">Your Result</p>
             <div class = "my-2" id="filter-results">
                 <div style="height: 72px">
-                    <h5 class="h-100 text-center">Activity Here</h5>
+                    <p class="h6 h-100 text-center">Activity Here</p>
                 </div>
                 <hr>
                 <div class="row">
@@ -64,11 +64,11 @@
     <div class="row mx-1 mb-3 d-flex align-items-center justify-content-center">
         <div class="col-md-4 col-lg-3">
             <div class="row g-0 d-flex justify-content-center">
-                <div class="col-3 col-md-6 border text-center ">
+                <div class="col-3 col-md-6 border border-dark text-center ">
                     <p class ="m-0 ">Saved</p>
                     <p class="m-0 display-1">{{total_inprogress}}</p>
                 </div>
-                <div class="col-3 col-md-6 border bg-success bg-opacity-50 text-center ">
+                <div class="col-3 col-md-6 border border-dark bg-success bg-opacity-50 text-center ">
                     <p class ="m-0 ">Completed</p>
                     <p class="m-0 display-1">{{total_completed}}</p>
                 </div>
@@ -98,9 +98,9 @@
                 <div class="card">
                     <div class="card-header">In Progress</div>
                     <div class="card-body">
-                        <p class="card-text">{{result.activity}}</p>
-                        <a href="/activity/{{result.key}}/completed" data-toggle="tooltip" title="Complete Activity"><i class="fa-solid fa-circle-check text-success"></i></a>
-                        <a href="/activity/{{result.key}}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>
+                        <p class="card-text">{{result.activity}} <span class="badge rounded-pill bg-dark">{{result.type}}</span></p>
+                        <a href="/activity/{{result.key}}/completed" data-toggle="tooltip" title="Complete Activity" ><i class="fa-solid fa-circle-check text-success"></i></a>
+                        <a href="/activity/{{result.key}}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>    
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
             <div class="card border-success">
                 <div class="card-header bg-success bg-opacity-25">Completed</div>
                 <div class="card-body">
-                    <p class="card-text">{{result.activity}}</p>
+                    <p class="card-text">{{result.activity}} <span class="badge bg-success rounded-pill">{{result.type}}</span></p>
                     <a href="/activity/{{result.key}}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>
 
                 </div>

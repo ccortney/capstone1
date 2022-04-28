@@ -1,12 +1,6 @@
 // find the DOM element where random activities will appear on the main homepage
-const $boredBoardHomeapge = $("#boredboard-home");
 const $filterResults = $("#filter-results");
-const $fitlerButton = $("#filter-btn");
 const $randomUserHome = $("#random-home");
-const $getRandom = $("#get-random");
-
-// Start with a random activity showing when DOM loads
-get_random();
 
 // Returns activity types as titlecase/capitolize except DIY as all uppercase
 function fixLowerCaseforType(type) {
@@ -40,18 +34,18 @@ function generateRandomActivity(activity) {
     let price = createPriceSymbols(activity.price)
     return `
         <div id = ${activity.key} style="height: 72px">
-            <h5 class="h-100 text-center">${activity.activity}</h5>
+            <p class="h6 h-100 text-center">${activity.activity}</p>
         </div>
         <hr>
         <div class="row">
             <p class="lh-lg">
                 Type: ${type} <br>  
                 Price Rating: ${price}<br>
-                Number of Participants: ${activity.participants}<br>
+                Participants: ${activity.participants}<br>
             </p>
             <div class="d-flex justify-content-center">
                 <a class="btn btn-success btn-sm mx-1" href='/activity/${activity.key}/save'>Save</a>
-                <button class="get-random btn btn-primary btn-sm mx-1">Get Another Activity</button>
+                <button class="get-random btn btn-primary btn-sm mx-1">New Activity</button>
             </div>
         </div>`
 }
@@ -62,20 +56,29 @@ function generateFilteredActivity(activity) {
     let price = createPriceSymbols(activity.price)
     return `
         <div id = ${activity.key} style="height: 72px">
-            <h5 class="text-center h-100">${activity.activity}</h5>
+            <p class="h6 h-100 text-center">${activity.activity}</p>
         </div>
         <hr>
         <div>
             <p class="lh-lg">
                 Type: ${type} <br>  
                 Price Rating: ${price}<br>
-                Number of Participants: ${activity.participants}<br>
+                Participants: ${activity.participants}<br>
             </p>
             <div class="d-flex justify-content-center">
                 <a class="btn btn-success btn-sm mx-1" href='/activity/${activity.key}/save'>Save</a>
             </div>
         </div>`
 }
+
+// Give error message if there is not an activity with specified parameters. 
+function generateFilterError() {
+    return `
+    <div>
+        <p>No activity found with the specified parameters.
+        </p>
+    </div>`
+}  
 
 // Get and show a random activity. 
 async function get_random(){
@@ -104,15 +107,6 @@ async function get_filtered_activity() {
     }
 }
 
-// Give error message if there is not an activity with specified parameters. 
-function generateFilterError() {
-    return `
-    <div>
-        <p>No activity found with the specified parameters.
-        </p>
-    </div>`
-}  
-
 // When the random button is clicked, call get_random()
 $("#random-home").on("click", ".get-random", async function(e) {
     e.preventDefault();
@@ -125,4 +119,10 @@ $("#filter-btn").on("click", async function(e) {
     await get_filtered_activity();
 })
 
+// Start with a random activity showing when DOM loads when logged in
 
+$(document).ready(function() {
+    if (window.location.pathname == '/home') {
+        get_random();
+    }
+})

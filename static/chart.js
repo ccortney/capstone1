@@ -85,6 +85,11 @@ async function show_charts() {
 
 }
 
-show_charts();
+$(document).ready(function() {
+  if (window.location.pathname == '/home') {
+    show_charts();
+  }
+})
+
 
 
