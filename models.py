@@ -96,19 +96,6 @@ class UserActivity(db.Model):
         UserActivity.status == 'in-progress').count()
         return total
 
-    def activities_total_saved(user_id):
-        total_saved = UserActivity.query.filter(UserActivity.user_id == user_id, 
-        UserActivity.status == 'in-progress').count()
-        total_completed = UserActivity.query.filter(UserActivity.user_id == user_id, 
-        UserActivity.status == 'completed').count()
-        return total_saved + total_completed
-    
-    def activities_left(user_id):
-        total = UserActivity.query.filter(UserActivity.user_id == user_id, 
-        UserActivity.status == 'completed').count()
-        activities_left = 185 - total
-        return activities_left
-
     def activities_percent_of_saved(user_id):
         completed_total = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'completed').count()
@@ -121,17 +108,3 @@ class UserActivity(db.Model):
 
         return percent
 
-class Activity():
-    def __init__(self, activity, type, price, participants):
-        self.activity = activity
-        self.type = type
-        self.price = price
-        self.participants = participants
-
-activity1 = Activity('Get a Massage', 'Relaxation', '0.4', 1)
-activity2 = Activity('Find a Recipe on Instagram', 'Cooking', '0', 1)
-activity3 = Activity('Meet up with Friends for a Drink', 'Social', '0.3', 3)
-activity4 = Activity('Refurbish a Flea Market Find', 'DIY', '0.5', 2)
-activity5 = Activity('Watch a Documentary', 'Education', '0', 1)
-
-preset_activites = [activity1, activity2, activity3, activity4, activity5]

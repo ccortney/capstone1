@@ -120,7 +120,6 @@ $("#filter-btn").on("click", async function(e) {
 })
 
 // Start with a random activity showing when DOM loads when logged in
-
 $(document).ready(function() {
     if (window.location.pathname == '/home') {
         get_random();

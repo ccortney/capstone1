@@ -20,6 +20,7 @@ class ApiCall:
     def get_activity_search(cls, type, price, participants):
         return requests.get(f"{api_url}type={type}&{price}&participants={participants}").json()
 
+    # returns the count of activities completed for each category
     def completed_categories(user_id):
         results = UserActivity.query.filter(UserActivity.user_id == user_id, 
         UserActivity.status == 'completed').all()

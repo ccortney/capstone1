@@ -1,7 +1,8 @@
 // const { Chart } = require("chart.js");
 
 const $doughnutChart = $("#doughnut-chart");
-  // naming colors
+  
+// naming colors
   let orange = 'FF9B54';
   let yellow = 'FCBA04'; 
   let pink = 'D81159';
