@@ -11,8 +11,8 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///bored'))
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql:///bored')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
