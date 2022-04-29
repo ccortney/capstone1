@@ -1,5 +1,8 @@
 // const { Chart } = require("chart.js");
 
+// base url using heroku
+const BASE_URL = "https://bored-board.herokuapp.com"
+
 const $doughnutChart = $("#doughnut-chart");
   
 // naming colors
@@ -17,7 +20,7 @@ const $doughnutChart = $("#doughnut-chart");
 
 // Get data: category counts
 async function get_category_counts(){
-    const res = await axios.get(`http://127.0.0.1:5000/activitycounts`);
+    const res = await axios.get(`${BASE_URL}/activitycounts`);
     
     // update activityCounts with data
     let activityCounts = [

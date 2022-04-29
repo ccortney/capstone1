@@ -2,6 +2,9 @@
 const $filterResults = $("#filter-results");
 const $randomUserHome = $("#random-home");
 
+// base url using heroku
+const BASE_URL = "https://bored-board.herokuapp.com"
+
 // Returns activity types as titlecase/capitolize except DIY as all uppercase
 function fixLowerCaseforType(type) {
     if (type == 'diy') {
@@ -82,7 +85,7 @@ function generateFilterError() {
 
 // Get and show a random activity. 
 async function get_random(){
-    const activityData = await axios.get(`http://127.0.0.1:5000/random`);
+    const activityData = await axios.get(`${BASE_URL}/random`);
     let activity = $(generateRandomActivity(activityData.data));
     $randomUserHome.empty();
     $randomUserHome.append(activity);
@@ -93,7 +96,7 @@ async function get_filtered_activity() {
     let activity_type = $("#type").val();
     let price = $("#price").val();
     let participants = $("#participants").val();
-    const activityData = await axios.post(`http://127.0.0.1:5000/home`, {
+    const activityData = await axios.post(`${BASE_URL}/home`, {
         activity_type, price, participants});
     if (activityData.data.error) {
         $filterResults.empty();
