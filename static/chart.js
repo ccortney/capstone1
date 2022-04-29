@@ -1,8 +1,5 @@
 // const { Chart } = require("chart.js");
 
-// base url using heroku
-const BASE_URL = "https://bored-board.herokuapp.com"
-
 const $doughnutChart = $("#doughnut-chart");
   
 // naming colors
