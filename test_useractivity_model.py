@@ -135,23 +135,11 @@ class UserActivityModelTestCase(TestCase):
         user_activities = UserActivity.activities_total_completed(self.user1.id)
         self.assertEqual(user_activities, 1)
 
-    def test_activities_total_saved(self):
-        """Should find count of saved(in-progress & completed) activities for a user"""
-
-        user_activities = UserActivity.activities_total_saved(self.user1.id)
-        self.assertEqual(user_activities, 2)
-
-    def test_activities_left(self):
-        """Should find the number of activities left to completed"""
-
-        user_activities = UserActivity.activities_left(self.user1.id)
-        self.assertEqual(user_activities, 184)
-
     def test_activities_percent_of_saved(self):
         """Should correctly find percent of saved activities completed"""
        
         user_activities = UserActivity.activities_percent_of_saved(self.user1.id)
-        self.assertEqual(user_activities, '50.0%')
+        self.assertEqual(user_activities, 50.0)
 
 
     

@@ -71,13 +71,13 @@ class UserViewTestCase(TestCase):
         db.session.rollback()
     
     def test_site_homepage(self):
-        """Do we see the preset activities on the homepage when not logged in?"""
+        """If not logged in, we should have a sign up and login button."""
 
         with self.client as client:
             res = client.get('/')
 
             self.assertEqual(res.status_code, 200)
-            self.assertIn('homepage', str(res.data))
+            self.assertIn('<a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>', str(res.data))
     
     def test_logging_in(self):
         """Can we successfully log in?"""
@@ -156,8 +156,9 @@ class UserViewTestCase(TestCase):
             user_activities = UserActivity.query.filter(UserActivity.user_id == self.user1.id).all()
             user_activities_ids = [activity.activity_id for activity in user_activities]
             self.assertIn(1799120, user_activities_ids)
+            link = f'<a href="/activity/{activity_id}/completed" data-toggle="tooltip" title="Complete Activity" ><i class="fa-solid fa-circle-check text-success"></i></a>'
 
-            self.assertIn(f'<a href="/activity/{activity_id}/completed">Completed</a>', str(res.data))
+            self.assertIn(link, str(res.data))
 
         
     def test_complete_activity(self):
@@ -182,8 +183,12 @@ class UserViewTestCase(TestCase):
             completed_activities_ids = [activity.activity_id for activity in completed_activities]
             self.assertIn(self.user_activity1.activity_id, completed_activities_ids)
 
-            self.assertNotIn(f'<a href="/activity/{self.user_activity1.activity_id}/completed">Completed</a>', str(res.data))
-            self.assertIn(f'<a href="/activity/{self.user_activity1.activity_id}/remove">Remove</a>', str(res.data))
+            completed_link = f'<a href="/activity/{self.user_activity1.activity_id}/completed" data-toggle="tooltip" title="Complete Activity" ><i class="fa-solid fa-circle-check text-success"></i></a>'
+            remove_link = f'<a href="/activity/{self.user_activity1.activity_id}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>'
+
+
+            self.assertNotIn(completed_link, str(res.data))
+            self.assertIn(remove_link, str(res.data))
 
 
     def test_remove_inprogress_activity(self):
@@ -203,7 +208,8 @@ class UserViewTestCase(TestCase):
             user_activities_ids = [activity.activity_id for activity in user_activities]
             self.assertNotIn(self.user_activity1.activity_id, user_activities_ids)
 
-            self.assertNotIn(f'<a href="/activity/{self.user_activity1.activity_id}/remove">Remove</a>', str(res.data))
+            remove_link = f'<a href="/activity/{self.user_activity1.activity_id}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>'
+            self.assertNotIn(remove_link, str(res.data))
 
     def test_remove_completed_activity(self):
         """Should remove an activity from the database and webpage"""
@@ -222,7 +228,8 @@ class UserViewTestCase(TestCase):
             user_activities_ids = [activity.activity_id for activity in user_activities]
             self.assertNotIn(self.user_activity2.activity_id, user_activities_ids)
 
-            self.assertNotIn(f'<a href="/activity/{self.user_activity2.activity_id}/remove">Remove</a>', str(res.data))
+            remove_link = f'<a href="/activity/{self.user_activity2.activity_id}/remove" data-bs-toggle="tooltip" title="Delete Activity"><i class="fa-solid fa-trash-can text-dark"></i></a>'
+            self.assertNotIn(remove_link, str(res.data))
 
     def test_save_activity_not_loggedin(self):
         """User should be redirected to homepage if not logged in"""
@@ -232,7 +239,7 @@ class UserViewTestCase(TestCase):
             activity_id = 1799120
             res = client.get(f'/activity/{activity_id}/save', follow_redirects = True)
             self.assertEqual(res.status_code, 200)
-            self.assertIn('homepage', str(res.data))
+            self.assertIn('<a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>', str(res.data))
 
     def test_complete_activity_not_loggedin(self):
         """User should be redirected to homepage if not logged in"""
@@ -241,7 +248,7 @@ class UserViewTestCase(TestCase):
 
             res = client.get(f'/activity/{self.user_activity1.activity_id}/completed', follow_redirects = True)
             self.assertEqual(res.status_code, 200)
-            self.assertIn('homepage', str(res.data))
+            self.assertIn('<a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>', str(res.data))
 
     def test_remove_activity_not_loggedin(self):
         """User should be redirected to homepage if not logged in"""
@@ -250,4 +257,4 @@ class UserViewTestCase(TestCase):
 
             res = client.get(f'/activity/{self.user_activity1.activity_id}/remove', follow_redirects = True)
             self.assertEqual(res.status_code, 200)
-            self.assertIn('homepage', str(res.data))
+            self.assertIn('<a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>', str(res.data))
