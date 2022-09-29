@@ -1,10 +1,14 @@
 # Capstone 1: BoredBoard
 
-An app to help combat boredom. https://bored-board.herokuapp.com/ 
+An app to help combat boredom. 
 
 ## Overview:
 Bored? Not sure what to do? BoredBoard allows users to find and filter for activities! With nine activity types (cooking, relaxation, and more!) and 
 multiple price and participant ranges, there is an activity for everyone. Users can save activites for later, complete activities now, and will have access to personalized stats on those they save and complete.
+
+## Accessing the App
+[https://bored-board.herokuapp.com/ ](https://bored-board.herokuapp.com/ )<br/>
+Test Username: testuser    Test Password: password
 
 ## Features:
 * BoredBoard users join as an individual user and only sees information related to their account. 
